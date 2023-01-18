@@ -1,4 +1,11 @@
 import styled from 'styled-components';
+import { Swiper } from 'swiper/react';
+
+export const UploadWrapper = styled.div`
+  display: flex;
+  column-gap: 20px;
+  justify-content: center;
+`;
 
 export const UploadLabel = styled.label`
   display: flex;
@@ -21,3 +28,10 @@ export const UploadLabel = styled.label`
     border-color: rgba(0, 0, 0, 0.4);
   }
 `;
+
+export const SwiperWrapper = styled.div`
+  width: 50%;
+  max-height: 300px;
+`;
+
+export const CustomSwiper = styled(Swiper)``;
