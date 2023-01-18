@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { Swiper } from 'swiper/react';
 
 export const UploadWrapper = styled.div`
   display: flex;
@@ -33,5 +32,3 @@ export const SwiperWrapper = styled.div`
   width: 50%;
   max-height: 300px;
 `;
-
-export const CustomSwiper = styled(Swiper)``;
