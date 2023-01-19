@@ -1,10 +1,9 @@
-import { ChangeEvent, SyntheticEvent } from 'react';
-import { useForm } from 'react-hook-form';
-import { DropdownProps, Form } from 'semantic-ui-react';
+import { Form } from 'semantic-ui-react';
 
 import Input from '../../../components/form/input';
 import Select from '../../../components/form/select';
 import { CATEGORIES, GENDER, OPTIONS } from '../../../constants/options';
+import useFormHandle from '../../../hooks/useFormHandle';
 import { UploadForm } from './index.style';
 
 interface ProductUploadForm {
@@ -18,19 +17,8 @@ interface ProductUploadForm {
 }
 
 export default function ProductUploadPage() {
-  const { handleSubmit, setValue } = useForm<ProductUploadForm>();
-
-  const onChangeInput = (key: keyof ProductUploadForm) => {
-    return (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      setValue(key, e.target.value);
-    };
-  };
-
-  const onChangeSelect = (key: keyof ProductUploadForm) => {
-    return (_: SyntheticEvent<HTMLElement, Event>, data: DropdownProps) => {
-      if (data.value) setValue(key, data.value as string | string[]);
-    };
-  };
+  const { handleSubmit, onChangeInput, onChangeSelect } =
+    useFormHandle<ProductUploadForm>();
 
   const onSubmit = async (data: any) => {
     return null;
