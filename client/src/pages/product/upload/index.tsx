@@ -1,6 +1,7 @@
 import { Form } from 'semantic-ui-react';
 
 import Input from '../../../components/form/input';
+import Select from '../../../components/form/select';
 import { UploadForm } from './index.style';
 
 const categories = [
@@ -33,28 +34,22 @@ export default function ProductUploadPage() {
           <Input inputType="amount" labelPosition="right" label="가격" />
         </Form.Group>
         <Form.Group widths="equal">
-          <Form.Select
-            required
-            fluid
+          <Select
             label="카테고리"
             options={categories}
             placeholder="카테고리를 선택해주세요."
           />
-          <Form.Select
-            required
-            fluid
+          <Select
             label="주 이용 성별"
             options={gender}
             placeholder="성별을 선택해주세요."
-            selection
             multiple
           />
-          <Form.Select
-            fluid
+          <Select
+            required={false}
             label="옵션"
             options={options}
             placeholder="옵션을 선택해주세요."
-            selection
             multiple
           />
         </Form.Group>
