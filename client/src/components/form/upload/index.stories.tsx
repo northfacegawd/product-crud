@@ -12,7 +12,7 @@ function FakeUpload() {
 }
 
 export default {
-  title: 'Example/MyComponent',
+  title: 'Form/Upload Component',
   component: FakeUpload,
   argTypes: {
     backgroundColor: { control: 'color' },

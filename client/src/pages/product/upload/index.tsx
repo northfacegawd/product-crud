@@ -1,5 +1,6 @@
-import { Form, Label } from 'semantic-ui-react';
+import { Form } from 'semantic-ui-react';
 
+import Input from '../../../components/form/input';
 import { UploadForm } from './index.style';
 
 const categories = [
@@ -27,29 +28,9 @@ export default function ProductUploadPage() {
       <h1>상품 등록하기</h1>
       <UploadForm>
         <Form.Group widths="equal">
-          <Form.Input
-            fluid
-            label="상품명"
-            placeholder="상품명을 입력해주세요."
-            required
-          />
-          <Form.Input
-            fluid
-            label="브랜드"
-            placeholder="브랜드를 입력해주세요."
-            required
-          />
-          <Form.Input
-            required
-            label="가격"
-            labelPosition="right"
-            type="text"
-            placeholder="가격"
-          >
-            <Label basic>₩</Label>
-            <input />
-            <Label>.00</Label>
-          </Form.Input>
+          <Input label="상품명" placeholder="상품명을 입력해주세요." />
+          <Input fluid label="브랜드" placeholder="브랜드를 입력해주세요." />
+          <Input inputType="amount" labelPosition="right" label="가격" />
         </Form.Group>
         <Form.Group widths="equal">
           <Form.Select

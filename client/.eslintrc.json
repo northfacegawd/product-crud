@@ -39,6 +39,7 @@
     "react/function-component-definition": "off",
     "react/jsx-props-no-spreading": "off",
     "react/require-default-props": "off",
+    "react/default-props-match-prop-types": "off",
     "jsx-a11y/no-noninteractive-element-interactions": 0,
     "jsx-a11y/label-has-associated-control": 0,
     "@typescript-eslint/explicit-module-boundary-types": 0
