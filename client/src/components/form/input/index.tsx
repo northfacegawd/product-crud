@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Form, FormInputProps, Label } from 'semantic-ui-react';
 
 interface InputProps extends FormInputProps {
@@ -24,4 +24,4 @@ Input.defaultProps = {
   type: 'text',
 };
 
-export default Input;
+export default memo(Input);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Form, FormSelectProps } from 'semantic-ui-react';
 
 const Select: React.FC<FormSelectProps> = ({ ...rest }) => {
@@ -12,4 +12,4 @@ Select.defaultProps = {
   search: true,
 };
 
-export default Select;
+export default memo(Select);

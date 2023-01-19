@@ -1,62 +1,92 @@
-import { Form } from 'semantic-ui-react';
+import { ChangeEvent, SyntheticEvent } from 'react';
+import { useForm } from 'react-hook-form';
+import { DropdownProps, Form } from 'semantic-ui-react';
 
 import Input from '../../../components/form/input';
 import Select from '../../../components/form/select';
+import { CATEGORIES, GENDER, OPTIONS } from '../../../constants/options';
 import { UploadForm } from './index.style';
 
-const categories = [
-  { key: 'ring', text: '반지', value: 'ring' },
-  { key: 'necklace', text: '목걸이', value: 'necklace' },
-  { key: 'bracelet', text: '팔찌', value: 'bracelet' },
-  { key: 'earring', text: '귀걸이', value: 'earring' },
-  { key: 'etc', text: '기타', value: 'etc' },
-];
-
-const gender = [
-  { key: 'male', text: '남성', value: 'male' },
-  { key: 'female', text: '여성', value: 'female' },
-  { key: 'unisex', text: '남녀공용', value: 'unisex' },
-];
-
-const options = [
-  { key: 'single', text: '아몬즈 단독', value: 'single' },
-  { key: 'departure_today', text: '오늘 출발', value: 'departure_today' },
-];
+interface ProductUploadForm {
+  name: string;
+  brand: string;
+  amount: string;
+  category: string;
+  gender: string[];
+  options: string[];
+  about: string;
+}
 
 export default function ProductUploadPage() {
+  const { handleSubmit, setValue } = useForm<ProductUploadForm>();
+
+  const onChangeInput = (key: keyof ProductUploadForm) => {
+    return (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      setValue(key, e.target.value);
+    };
+  };
+
+  const onChangeSelect = (key: keyof ProductUploadForm) => {
+    return (_: SyntheticEvent<HTMLElement, Event>, data: DropdownProps) => {
+      if (data.value) setValue(key, data.value as string | string[]);
+    };
+  };
+
+  const onSubmit = async (data: any) => {
+    return null;
+  };
+
   return (
     <>
       <h1>상품 등록하기</h1>
-      <UploadForm>
+      <UploadForm onSubmit={handleSubmit(onSubmit)}>
         <Form.Group widths="equal">
-          <Input label="상품명" placeholder="상품명을 입력해주세요." />
-          <Input fluid label="브랜드" placeholder="브랜드를 입력해주세요." />
-          <Input inputType="amount" labelPosition="right" label="가격" />
+          <Input
+            label="상품명"
+            placeholder="상품명을 입력해주세요."
+            onChange={onChangeInput('name')}
+          />
+          <Input
+            fluid
+            label="브랜드"
+            placeholder="브랜드를 입력해주세요."
+            onChange={onChangeInput('brand')}
+          />
+          <Input
+            inputType="amount"
+            labelPosition="right"
+            label="가격"
+            onChange={onChangeInput('amount')}
+          />
         </Form.Group>
         <Form.Group widths="equal">
           <Select
             label="카테고리"
-            options={categories}
+            options={CATEGORIES}
             placeholder="카테고리를 선택해주세요."
+            onChange={onChangeSelect('category')}
           />
           <Select
+            multiple
             label="주 이용 성별"
-            options={gender}
             placeholder="성별을 선택해주세요."
-            multiple
+            options={GENDER}
+            onChange={onChangeSelect('gender')}
           />
           <Select
-            required={false}
-            label="옵션"
-            options={options}
-            placeholder="옵션을 선택해주세요."
             multiple
+            label="옵션"
+            placeholder="옵션을 선택해주세요."
+            required={false}
+            options={OPTIONS}
+            onChange={onChangeSelect('options')}
           />
         </Form.Group>
         <Form.TextArea
           required
           label="제품 상세"
           placeholder="제품 설명을 입력해주세요."
+          onChange={onChangeInput('about')}
         />
         <Form.Button type="submit">Submit</Form.Button>
       </UploadForm>
