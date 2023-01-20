@@ -8,14 +8,22 @@ interface InputProps extends FormInputProps {
 const Input: React.FC<InputProps> = ({ inputType, ...rest }) => {
   if (inputType === 'amount') {
     return (
-      <Form.Input {...rest}>
+      <Form.Input
+        placeholder={`${rest.label}을(를) 선택 또는 입력해주세요.`}
+        {...rest}
+      >
         <Label basic>₩</Label>
         <input />
         <Label>.00</Label>
       </Form.Input>
     );
   }
-  return <Form.Input {...rest} />;
+  return (
+    <Form.Input
+      placeholder={`${rest.label}을(를) 선택 또는 입력해주세요.`}
+      {...rest}
+    />
+  );
 };
 
 Input.defaultProps = {

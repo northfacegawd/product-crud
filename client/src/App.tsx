@@ -1,6 +1,9 @@
 import React from 'react';
-import logo from './logo.svg';
+import { Route, Routes } from 'react-router-dom';
+
 import './App.css';
+import logo from './logo.svg';
+import ProductUploadPage from './pages/products/upload';
 
 function App() {
   return (
@@ -19,6 +22,9 @@ function App() {
           Learn React
         </a>
       </header>
+      <Routes>
+        <Route path="/products/upload" element={<ProductUploadPage />} />
+      </Routes>
     </div>
   );
 }
