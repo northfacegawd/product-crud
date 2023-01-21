@@ -42,4 +42,5 @@ model Product {
   category   Category @relation(fields: [categoryId], references: [id])
   categoryId String
   options    Option[]
+  likeCount  Int      @default(0)
 }
