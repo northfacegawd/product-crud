@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 
+import { numberIntoPrice } from '../../libs/util';
 import { Product } from '../../types/product';
 import Heart from '../icons/heart';
 import {
@@ -36,9 +37,9 @@ export default function ProductItem({
           {name}
         </ProductInfo>
         <ProductSecondInfo>
-          <Amount>{amount}</Amount>
+          <Amount>{numberIntoPrice(amount)}</Amount>
         </ProductSecondInfo>
-        <LikeCount>좋아요 {likeCount}</LikeCount>
+        <LikeCount>좋아요 {numberIntoPrice(likeCount)}</LikeCount>
       </Link>
     </ProductItemWrapper>
   );
