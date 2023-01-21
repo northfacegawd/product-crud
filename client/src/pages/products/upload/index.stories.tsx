@@ -1,6 +1,3 @@
-import React from 'react';
-import { withRouter } from 'storybook-addon-react-router-v6';
-
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
 import ProductUploadPage from '.';

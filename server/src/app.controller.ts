@@ -45,12 +45,22 @@ export class AppController {
     @Body() productData: Omit<Product, 'id'>,
     @Res() res: Response,
   ) {
-    console.log(productData);
     try {
-      const product = await this.productService.createProduct(productData);
+      const product = await this.productService.createProduct({
+        ...productData,
+        brand: {
+          connect: {
+            slug: productData.brandId,
+          },
+        },
+        category: {
+          connect: {
+            slug: productData.categoryId,
+          },
+        },
+      });
       return res.status(HttpStatus.OK).json({ product });
     } catch (error) {
-      console.log(error);
       return res.status(HttpStatus.BAD_REQUEST).json({ error });
     }
   }
