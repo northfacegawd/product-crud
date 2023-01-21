@@ -12,6 +12,16 @@ const GlobalStyle = createGlobalStyle`
     color: inherit;
     text-decoration: none;
   }
+
+  body {
+    font-size: 16px;
+  }
+
+  @media (max-width: 768px) {
+    body {
+      font-size: 14px;
+    }
+  }
 `;
 
 export default GlobalStyle;

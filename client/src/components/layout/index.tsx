@@ -1,11 +1,12 @@
 import { PropsWithChildren } from 'react';
 
+import Header from './header';
 import { Main } from './index.style';
 
 export default function Layout({ children }: PropsWithChildren) {
   return (
     <>
-      <header />
+      <Header />
       <Main>{children}</Main>
       <footer />
     </>
