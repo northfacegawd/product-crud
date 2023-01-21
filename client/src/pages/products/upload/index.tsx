@@ -4,7 +4,8 @@ import { Form } from 'semantic-ui-react';
 
 import Input from '../../../components/form/input';
 import Select from '../../../components/form/select';
-import { CATEGORIES, GENDER, OPTIONS } from '../../../constants/options';
+import UtilSelect from '../../../components/form/util-select';
+import { GENDER } from '../../../constants/options';
 import { useCreateProduct } from '../../../hooks/request/post/useCreateProduct';
 import useFormHandle from '../../../hooks/useFormHandle';
 import { UploadForm } from './index.style';
@@ -40,7 +41,11 @@ export default function ProductUploadPage() {
       <UploadForm onSubmit={handleSubmit(onSubmit)} loading={isLoading}>
         <Form.Group widths="equal">
           <Input label="상품명" onChange={onChangeInput('name')} />
-          <Input fluid label="브랜드" onChange={onChangeInput('brand')} />
+          <UtilSelect
+            label="브랜드"
+            type="brands"
+            onChange={onChangeSelect('brand')}
+          />
           <Input
             inputType="amount"
             labelPosition="right"
@@ -49,9 +54,9 @@ export default function ProductUploadPage() {
           />
         </Form.Group>
         <Form.Group widths="equal">
-          <Select
+          <UtilSelect
             label="카테고리"
-            options={CATEGORIES}
+            type="categories"
             onChange={onChangeSelect('category')}
           />
           <Select
@@ -60,11 +65,11 @@ export default function ProductUploadPage() {
             options={GENDER}
             onChange={onChangeSelect('gender')}
           />
-          <Select
-            multiple
-            label="옵션"
+          <UtilSelect
             required={false}
-            options={OPTIONS}
+            multiple
+            type="options"
+            label="옵션"
             onChange={onChangeSelect('options')}
           />
         </Form.Group>

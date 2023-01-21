@@ -1,9 +1,10 @@
-interface Option {
-  type: string;
-  label: string;
+export interface Util {
+  id: string;
+  slug: string;
+  name: string;
 }
 
-interface Product {
+export interface Product {
   id: number;
   title: string;
   description: string;
