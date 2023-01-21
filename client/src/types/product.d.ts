@@ -6,7 +6,10 @@ export interface Util {
 
 export interface Product {
   id: number;
-  title: string;
-  description: string;
+  name: string;
+  about: string;
+  amount: string;
   options: Option[];
+  category: Util;
+  brand: Util;
 }
