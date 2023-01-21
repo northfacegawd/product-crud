@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
 export const ProductItemWrapper = styled.li`
-  width: calc(33.3% - 2em);
+  width: calc(35.4% - 2em);
   cursor: pointer;
   @media (max-width: 650px) {
-    width: calc(50% - 1em);
+    width: calc(51.1% - 1em);
   }
   @media (max-width: 400px) {
     width: 100%;

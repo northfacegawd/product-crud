@@ -1,9 +1,7 @@
-export const numberIntoPrice = (
-  num: number | string,
-  ceil?: boolean,
-): string => {
-  if (ceil) Math.ceil(typeof num === 'string' ? +num : num);
-  return num.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
+export const numberIntoPrice = (num: number | string): string => {
+  const parts = num.toString().split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  return parts.join('.');
 };
 
 export const isEmptyArray = <T>(array: Array<T>): boolean => {
