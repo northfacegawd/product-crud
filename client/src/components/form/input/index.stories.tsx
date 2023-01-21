@@ -8,7 +8,7 @@ import Input from '.';
 function FakeAmount() {
   return (
     <Form>
-      <Input inputType="amount" />
+      <Input label="가격" inputType="amount" />
     </Form>
   );
 }

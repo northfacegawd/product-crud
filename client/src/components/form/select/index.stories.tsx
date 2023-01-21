@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormSelectProps } from 'semantic-ui-react';
+import { Form, FormSelectProps } from 'semantic-ui-react';
 
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
@@ -11,7 +11,11 @@ const options = [
 ];
 
 function FakeSelect({ options }: Pick<FormSelectProps, 'options'>) {
-  return <Select options={options} />;
+  return (
+    <Form>
+      <Select options={options} label="옵션" />
+    </Form>
+  );
 }
 
 export default {
