@@ -4,9 +4,11 @@ import { Product } from '../../types/product';
 import {
   Amount,
   Brand,
+  LikeCount,
   ProductImage,
   ProductInfo,
   ProductItemWrapper,
+  ProductSecondInfo,
 } from './index.style';
 
 interface ProductItemProps extends Omit<Product, 'about'> {
@@ -19,6 +21,7 @@ export default function ProductItem({
   brand,
   name,
   thumbnail,
+  likeCount,
 }: ProductItemProps) {
   return (
     <ProductItemWrapper>
@@ -28,9 +31,10 @@ export default function ProductItem({
           <Brand>{brand.name}</Brand>
           {name}
         </ProductInfo>
-        <ProductInfo>
+        <ProductSecondInfo>
           <Amount>{amount}</Amount>
-        </ProductInfo>
+        </ProductSecondInfo>
+        <LikeCount>좋아요 {likeCount}</LikeCount>
       </Link>
     </ProductItemWrapper>
   );

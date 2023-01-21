@@ -2,14 +2,18 @@ import styled from 'styled-components';
 
 export const ProductItemWrapper = styled.li`
   width: calc(33.3% - 2em);
-  max-width: 310px;
   cursor: pointer;
+  @media (max-width: 650px) {
+    width: calc(50% - 1em);
+  }
+  @media (max-width: 400px) {
+    width: 100%;
+  }
 `;
 
 export const ProductImage = styled.img`
   width: 100%;
   height: auto;
-  max-height: 310px;
   object-fit: cover;
 `;
 
@@ -27,6 +31,10 @@ export const ProductInfo = styled.p`
   text-overflow: ellipsis;
 `;
 
+export const ProductSecondInfo = styled(ProductInfo)`
+  margin-top: 1em;
+`;
+
 export const Amount = styled.span`
   font-weight: 800;
   font-size: 1.1rem;
@@ -35,4 +43,12 @@ export const Amount = styled.span`
     font-weight: 0.7em;
     content: '원';
   }
+`;
+
+export const LikeCount = styled.span`
+  margin-top: 0.5em;
+  font-size: 10px;
+  font-weight: bold;
+  line-height: 15px;
+  color: rgb(155, 155, 155);
 `;

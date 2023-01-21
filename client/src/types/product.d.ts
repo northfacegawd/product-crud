@@ -7,9 +7,15 @@ export interface Util {
 export interface Product {
   id: number;
   name: string;
-  about: string;
   amount: string;
-  options: Option[];
+  gender: string;
+  about: string;
+  brandId?: string;
+  categoryId?: string;
+  likeCount: number;
+  createdAt: Date;
+  updatedAt: Date;
+  options?: Option[];
   category: Util;
   brand: Util;
 }
