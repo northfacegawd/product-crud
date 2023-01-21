@@ -1,4 +1,5 @@
 import { ProductService } from './services/product.service';
+import { UtilService } from './services/util.service';
 import {
   Body,
   Controller,
@@ -14,7 +15,10 @@ import { Response } from 'express';
 
 @Controller('api')
 export class AppController {
-  constructor(private readonly productService: ProductService) {}
+  constructor(
+    private readonly productService: ProductService,
+    private readonly utilService: UtilService,
+  ) {}
 
   @Get('products')
   async getProducts(@Res() res: Response) {
@@ -36,6 +40,36 @@ export class AppController {
       if (error?.message === 'not_found') {
         return res.status(HttpStatus.NOT_FOUND).json({ error });
       }
+      return res.status(HttpStatus.BAD_REQUEST).json({ error });
+    }
+  }
+
+  @Get('brands')
+  async getBrands(@Res() res: Response) {
+    try {
+      const brands = await this.utilService.brands({});
+      return res.status(HttpStatus.OK).json({ brands });
+    } catch (error) {
+      return res.status(HttpStatus.BAD_REQUEST).json({ error });
+    }
+  }
+
+  @Get('options')
+  async getOptions(@Res() res: Response) {
+    try {
+      const options = await this.utilService.options({});
+      return res.status(HttpStatus.OK).json({ options });
+    } catch (error) {
+      return res.status(HttpStatus.BAD_REQUEST).json({ error });
+    }
+  }
+
+  @Get('categories')
+  async getCategories(@Res() res: Response) {
+    try {
+      const categories = await this.utilService.categories({});
+      return res.status(HttpStatus.OK).json({ categories });
+    } catch (error) {
       return res.status(HttpStatus.BAD_REQUEST).json({ error });
     }
   }
