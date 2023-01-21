@@ -18,7 +18,8 @@ export const ProductImage = styled.img`
 `;
 
 export const Brand = styled.span`
-  display: block;
+  display: flex;
+  justify-content: space-between;
   font-weight: 700;
   margin-bottom: 0.3em;
 `;

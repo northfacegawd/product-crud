@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 
 import { Product } from '../../types/product';
+import Heart from '../icons/heart';
 import {
   Amount,
   Brand,
@@ -28,7 +29,10 @@ export default function ProductItem({
       <Link to={`/products/${id}`}>
         <ProductImage src={thumbnail} alt={`${name} 썸네일`} />
         <ProductInfo>
-          <Brand>{brand.name}</Brand>
+          <Brand>
+            {brand.name}&nbsp;
+            <Heart />
+          </Brand>
           {name}
         </ProductInfo>
         <ProductSecondInfo>

@@ -24,4 +24,5 @@ Primary.args = {
   options: [],
   thumbnail:
     'https://cdn.amondz.com/product/34415/resize/mainImg/PSI_689100_50.jpeg?v=1654675772133',
+  likeCount: 2500,
 };
