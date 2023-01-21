@@ -14,3 +14,7 @@ export const isEmptyArray = <T>(array: Array<T>): boolean => {
     return !data;
   });
 };
+
+export const getEmptyArray = (length: number) => {
+  return Array.from({ length }, (_, i) => i);
+};
