@@ -1,6 +1,7 @@
 import ProductItem from '../../components/product';
+import ProductList from '../../components/product/list';
 import useProducts from '../../hooks/request/get/useProducts';
-import { Heading, ProductList } from './index.style';
+import { Heading } from './index.style';
 
 export default function ProductsPage() {
   const { data } = useProducts();
