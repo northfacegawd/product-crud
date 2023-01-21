@@ -12,7 +12,7 @@ import {
 import { Product } from '@prisma/client';
 import { Response } from 'express';
 
-@Controller()
+@Controller('api')
 export class AppController {
   constructor(private readonly productService: ProductService) {}
 
@@ -41,17 +41,22 @@ export class AppController {
   }
 
   @Post('products')
-  async uploadProduct(@Body() productData: Omit<Product, 'id'>, res: Response) {
+  async uploadProduct(
+    @Body() productData: Omit<Product, 'id'>,
+    @Res() res: Response,
+  ) {
+    console.log(productData);
     try {
       const product = await this.productService.createProduct(productData);
       return res.status(HttpStatus.OK).json({ product });
     } catch (error) {
+      console.log(error);
       return res.status(HttpStatus.BAD_REQUEST).json({ error });
     }
   }
 
   @Delete('products/:id')
-  async deleteProduct(@Param('id') id: number, res: Response) {
+  async deleteProduct(@Param('id') id: number, @Res() res: Response) {
     try {
       await this.productService.deleteProduct({ id });
       return res.status(HttpStatus.OK).json({ success: true });

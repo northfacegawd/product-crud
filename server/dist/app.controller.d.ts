@@ -7,4 +7,5 @@ export declare class AppController {
     getProducts(res: Response): Promise<Response<any, Record<string, any>>>;
     getProductById(id: number, res: Response): Promise<Response<any, Record<string, any>>>;
     uploadProduct(productData: Omit<Product, 'id'>, res: Response): Promise<Response<any, Record<string, any>>>;
+    deleteProduct(id: number, res: Response): Promise<Response<any, Record<string, any>>>;
 }

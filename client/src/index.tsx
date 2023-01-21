@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from 'react-query';
@@ -14,6 +15,8 @@ const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );
+
+axios.defaults.baseURL = 'http://localhost:8080';
 
 root.render(
   <React.StrictMode>

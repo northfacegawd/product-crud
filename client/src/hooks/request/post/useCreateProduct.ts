@@ -5,5 +5,5 @@ import { createProduct } from '../../../request/product';
 
 export const useCreateProduct = () => {
   const mutateFn = (formData: ProductUploadForm) => createProduct(formData);
-  return useMutation('/api/product', mutateFn);
+  return useMutation('/api/products', mutateFn);
 };

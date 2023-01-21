@@ -43,9 +43,20 @@ let AppController = class AppController {
         }
     }
     async uploadProduct(productData, res) {
+        console.log(productData);
         try {
             const product = await this.productService.createProduct(productData);
             return res.status(common_1.HttpStatus.OK).json({ product });
+        }
+        catch (error) {
+            console.log(error);
+            return res.status(common_1.HttpStatus.BAD_REQUEST).json({ error });
+        }
+    }
+    async deleteProduct(id, res) {
+        try {
+            await this.productService.deleteProduct({ id });
+            return res.status(common_1.HttpStatus.OK).json({ success: true });
         }
         catch (error) {
             return res.status(common_1.HttpStatus.BAD_REQUEST).json({ error });
@@ -70,12 +81,21 @@ __decorate([
 __decorate([
     (0, common_1.Post)('products'),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], AppController.prototype, "uploadProduct", null);
+__decorate([
+    (0, common_1.Delete)('products/:id'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Object]),
+    __metadata("design:returntype", Promise)
+], AppController.prototype, "deleteProduct", null);
 AppController = __decorate([
-    (0, common_1.Controller)(),
+    (0, common_1.Controller)('api'),
     __metadata("design:paramtypes", [product_service_1.ProductService])
 ], AppController);
 exports.AppController = AppController;
