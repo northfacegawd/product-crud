@@ -1,5 +1,6 @@
 import { ProductService } from './services/product.service';
 import { UtilService } from './services/util.service';
+import { CreateProductBody } from './types/product';
 import {
   Body,
   Controller,
@@ -10,7 +11,6 @@ import {
   Post,
   Res,
 } from '@nestjs/common';
-import { Product } from '@prisma/client';
 import { Response } from 'express';
 
 @Controller('api')
@@ -76,7 +76,7 @@ export class AppController {
 
   @Post('products')
   async uploadProduct(
-    @Body() productData: Omit<Product, 'id'>,
+    @Body() productData: CreateProductBody,
     @Res() res: Response,
   ) {
     try {
@@ -84,17 +84,21 @@ export class AppController {
         ...productData,
         brand: {
           connect: {
-            slug: productData.brandId,
+            slug: productData.brand,
           },
         },
         category: {
           connect: {
-            slug: productData.categoryId,
+            slug: productData.category,
           },
+        },
+        options: {
+          connect: productData.options.map((option) => ({ slug: option })),
         },
       });
       return res.status(HttpStatus.OK).json({ product });
     } catch (error) {
+      console.log(error);
       return res.status(HttpStatus.BAD_REQUEST).json({ error });
     }
   }

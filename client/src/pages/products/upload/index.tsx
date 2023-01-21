@@ -60,7 +60,6 @@ export default function ProductUploadPage() {
             onChange={onChangeSelect('category')}
           />
           <Select
-            multiple
             label="주 이용 성별"
             options={GENDER}
             onChange={onChangeSelect('gender')}

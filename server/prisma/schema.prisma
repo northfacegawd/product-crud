@@ -11,11 +11,10 @@ datasource db {
 }
 
 model Option {
-  id        String   @id @default(uuid())
-  slug      String   @unique
-  name      String
-  Product   Product? @relation(fields: [productId], references: [id])
-  productId Int?
+  id      String    @id @default(uuid())
+  slug    String    @unique
+  name    String
+  Product Product[]
 }
 
 model Brand {
@@ -36,7 +35,7 @@ model Product {
   id         Int      @id @default(autoincrement())
   name       String
   amount     String
-  gender     String[]
+  gender     String
   about      String
   brand      Brand    @relation(fields: [brandId], references: [id])
   brandId    String
