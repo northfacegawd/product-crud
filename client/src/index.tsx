@@ -1,19 +1,22 @@
+import axios from 'axios';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter as Router } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import 'semantic-ui-css/semantic.min.css';
-import './index.css';
+import { BrowserRouter as Router } from 'react-router-dom';
+
 import App from './App';
-import reportWebVitals from './reportWebVitals';
 import GlobalStyle from './globalStyles';
+import './index.css';
+import reportWebVitals from './reportWebVitals';
 
 const queryClient = new QueryClient();
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );
+
+axios.defaults.baseURL = 'http://localhost:8080';
 
 root.render(
   <React.StrictMode>
