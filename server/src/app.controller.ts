@@ -79,6 +79,16 @@ export class AppController {
     }
   }
 
+  @Get('images')
+  async getImageUploadUrl(@Res() res: Response) {
+    try {
+      const result = await this.utilService.getImageUploadUrl();
+      return res.status(HttpStatus.OK).json({ ...result });
+    } catch (error) {
+      return res.status(HttpStatus.BAD_REQUEST).json({ error });
+    }
+  }
+
   @Post('products')
   async uploadProduct(
     @Body() productData: CreateProductBody,
