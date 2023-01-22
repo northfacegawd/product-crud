@@ -25,10 +25,11 @@ export class AppController {
     try {
       const products = await this.productService.products({
         include: { brand: true, category: true, options: true },
-        orderBy: { updatedAt: 'desc', likeCount: 'desc' },
+        orderBy: { likeCount: 'desc' },
       });
       return res.status(HttpStatus.OK).json({ products });
     } catch (error) {
+      console.log(error);
       return res.status(HttpStatus.BAD_REQUEST).json({ error });
     }
   }
@@ -96,7 +97,7 @@ export class AppController {
           },
         },
         options: {
-          connect: productData.options.map((option) => ({ slug: option })),
+          connect: productData.options?.map((option) => ({ slug: option })),
         },
       });
       return res.status(HttpStatus.OK).json({ product });
