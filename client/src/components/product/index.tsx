@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 
 import { numberIntoPrice } from '../../libs/util';
 import { Product } from '../../types/product';
+import Badge from '../common/badge';
 import Heart from '../icons/heart';
 import {
   Amount,
@@ -24,6 +25,7 @@ export default function ProductItem({
   name,
   thumbnail,
   likeCount,
+  options,
 }: ProductItemProps) {
   return (
     <ProductItemWrapper>
@@ -38,6 +40,13 @@ export default function ProductItem({
         </ProductInfo>
         <ProductSecondInfo>
           <Amount>{numberIntoPrice(amount)}</Amount>
+          {options?.map((option) => (
+            <Badge
+              style={{ marginLeft: '0.5em' }}
+              key={option.slug}
+              type={option.slug}
+            />
+          ))}
         </ProductSecondInfo>
         <LikeCount>좋아요 {numberIntoPrice(likeCount)}</LikeCount>
       </Link>
