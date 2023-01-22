@@ -4,9 +4,11 @@ import { Form } from 'semantic-ui-react';
 
 import Input from '../../../components/form/input';
 import Select from '../../../components/form/select';
+import Upload from '../../../components/form/upload';
 import UtilSelect from '../../../components/form/util-select';
 import { GENDER } from '../../../constants/options';
 import { useCreateProduct } from '../../../hooks/request/post/useCreateProduct';
+import useUploadImage from '../../../hooks/request/useUploadImage';
 import useFormHandle from '../../../hooks/useFormHandle';
 import { Heading } from '../index.style';
 import { UploadForm } from './index.style';
@@ -19,34 +21,42 @@ export interface ProductUploadForm {
   gender: string[];
   options: string[];
   about: string;
+  thumbnail: FileList;
 }
 
 export default function ProductUploadPage() {
-  const { handleSubmit, onChangeInput, onChangeSelect } =
+  const { handleSubmit, onChangeInput, onChangeSelect, register, watch } =
     useFormHandle<ProductUploadForm>();
   const { mutate, isLoading, data } = useCreateProduct();
   const navigate = useNavigate();
+  const { upload, uploading } = useUploadImage();
 
   const onSubmit = async (data: ProductUploadForm) => {
-    mutate(data);
+    const thumbnailFile = data.thumbnail.item(0);
+    if (!thumbnailFile) return;
+    const id = await upload(thumbnailFile);
+    mutate({ ...data, thumbnail: id });
   };
 
   useEffect(() => {
     if (!data) return;
-    navigate(`/products/${data.id}`);
+    alert('상품 등록이 완료되었습니다.');
+    navigate('/products');
   }, [data]);
 
   return (
     <>
       <Heading>상품 등록하기</Heading>
-      <UploadForm onSubmit={handleSubmit(onSubmit)} loading={isLoading}>
-        <Form.Group widths="equal">
+      <UploadForm
+        onSubmit={handleSubmit(onSubmit)}
+        loading={isLoading || uploading}
+      >
+        <Upload
+          register={register('thumbnail')}
+          previewFile={watch('thumbnail')}
+        />
+        <Form.Group widths="equal" style={{ marginTop: '1rem' }}>
           <Input label="상품명" onChange={onChangeInput('name')} />
-          <UtilSelect
-            label="브랜드"
-            type="brands"
-            onChange={onChangeSelect('brand')}
-          />
           <Input
             inputType="amount"
             labelPosition="right"
@@ -56,10 +66,17 @@ export default function ProductUploadPage() {
         </Form.Group>
         <Form.Group widths="equal">
           <UtilSelect
+            label="브랜드"
+            type="brands"
+            onChange={onChangeSelect('brand')}
+          />
+          <UtilSelect
             label="카테고리"
             type="categories"
             onChange={onChangeSelect('category')}
           />
+        </Form.Group>
+        <Form.Group widths="equal">
           <Select
             label="주 이용 성별"
             options={GENDER}

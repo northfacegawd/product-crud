@@ -18,4 +18,5 @@ export interface Product {
   options?: Option[];
   category: Util;
   brand: Util;
+  thumbnail: string;
 }

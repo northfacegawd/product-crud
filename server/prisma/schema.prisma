@@ -37,6 +37,7 @@ model Product {
   amount     String
   gender     String
   about      String
+  thumbnail  String
   brand      Brand    @relation(fields: [brandId], references: [id])
   brandId    String
   category   Category @relation(fields: [categoryId], references: [id])

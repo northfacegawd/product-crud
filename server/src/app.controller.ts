@@ -8,6 +8,7 @@ import {
   Get,
   HttpStatus,
   Param,
+  Patch,
   Post,
   Res,
 } from '@nestjs/common';
@@ -25,10 +26,11 @@ export class AppController {
     try {
       const products = await this.productService.products({
         include: { brand: true, category: true, options: true },
-        orderBy: { updatedAt: 'desc', likeCount: 'desc' },
+        orderBy: { likeCount: 'desc' },
       });
       return res.status(HttpStatus.OK).json({ products });
     } catch (error) {
+      console.log(error);
       return res.status(HttpStatus.BAD_REQUEST).json({ error });
     }
   }
@@ -77,6 +79,16 @@ export class AppController {
     }
   }
 
+  @Get('images')
+  async getImageUploadUrl(@Res() res: Response) {
+    try {
+      const result = await this.utilService.getImageUploadUrl();
+      return res.status(HttpStatus.OK).json({ ...result });
+    } catch (error) {
+      return res.status(HttpStatus.BAD_REQUEST).json({ error });
+    }
+  }
+
   @Post('products')
   async uploadProduct(
     @Body() productData: CreateProductBody,
@@ -96,7 +108,39 @@ export class AppController {
           },
         },
         options: {
-          connect: productData.options.map((option) => ({ slug: option })),
+          connect: productData.options?.map((option) => ({ slug: option })),
+        },
+      });
+      return res.status(HttpStatus.OK).json({ product });
+    } catch (error) {
+      return res.status(HttpStatus.BAD_REQUEST).json({ error });
+    }
+  }
+
+  @Patch('products/:id')
+  async updateProduct(
+    @Param('id') id: number,
+    @Body() productData: CreateProductBody,
+    @Res() res: Response,
+  ) {
+    try {
+      const product = await this.productService.updateProduct({
+        where: { id: Number(id) },
+        data: {
+          name: productData.name,
+          amount: productData.amount,
+          about: productData.about,
+          gender: productData.gender,
+          thumbnail: productData.thumbnail,
+          brand: {
+            connect: { slug: productData.brand },
+          },
+          category: {
+            connect: { slug: productData.category },
+          },
+          options: {
+            set: productData.options?.map((option) => ({ slug: option })),
+          },
         },
       });
       return res.status(HttpStatus.OK).json({ product });

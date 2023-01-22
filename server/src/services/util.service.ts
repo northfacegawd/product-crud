@@ -1,6 +1,7 @@
 import { PrismaService } from './prisma.service';
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
+import { CloudFlareResponse } from 'src/types/util';
 
 @Injectable()
 export class UtilService {
@@ -34,5 +35,21 @@ export class UtilService {
     orderBy?: Prisma.OptionOrderByWithRelationInput;
   }) {
     return this.prisma.option.findMany({ ...param });
+  }
+
+  async getImageUploadUrl() {
+    const response: CloudFlareResponse = await (
+      await fetch(
+        `https://api.cloudflare.com/client/v4/accounts/${process.env.CF_ID}/images/v2/direct_upload`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${process.env.CF_TOKEN}`,
+          },
+        },
+      )
+    ).json();
+    return response.result;
   }
 }

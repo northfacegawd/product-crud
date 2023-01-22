@@ -10,12 +10,16 @@ export const UploadLabel = styled.label`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 250px;
-  height: 250px;
+  width: 200px;
+  height: 200px;
   cursor: pointer;
   border: 2px dashed black;
   border-radius: 6px;
   transition: all 200ms ease-out;
+  background: no-repeat;
+  background-position: center;
+  object-fit: cover;
+  background-size: 200px;
   svg {
     width: 100px;
   }
