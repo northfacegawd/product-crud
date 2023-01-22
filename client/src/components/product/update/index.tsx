@@ -27,19 +27,13 @@ export default function ProductUpdateModal({
   return (
     <Modal onClose={onClose} onOpen={onOpen} open={open}>
       <Modal.Header>상품 수정하기</Modal.Header>
-      <Modal.Content>
+      <Modal.Content scrolling>
         <Form>
           <Form.Group widths="equal">
             <Input
               label="상품명"
               onChange={onChangeInput('name')}
               defaultValue={name}
-            />
-            <UtilSelect
-              label="브랜드"
-              type="brands"
-              onChange={onChangeSelect('brand')}
-              defaultValue={brand.slug}
             />
             <Input
               inputType="amount"
@@ -51,11 +45,19 @@ export default function ProductUpdateModal({
           </Form.Group>
           <Form.Group widths="equal">
             <UtilSelect
+              label="브랜드"
+              type="brands"
+              onChange={onChangeSelect('brand')}
+              defaultValue={brand.slug}
+            />
+            <UtilSelect
               label="카테고리"
               type="categories"
               onChange={onChangeSelect('category')}
               defaultValue={category.slug}
             />
+          </Form.Group>
+          <Form.Group widths="equal">
             <Select
               label="주 이용 성별"
               options={GENDER}

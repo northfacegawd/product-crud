@@ -42,11 +42,6 @@ export default function ProductUploadPage() {
       <UploadForm onSubmit={handleSubmit(onSubmit)} loading={isLoading}>
         <Form.Group widths="equal">
           <Input label="상품명" onChange={onChangeInput('name')} />
-          <UtilSelect
-            label="브랜드"
-            type="brands"
-            onChange={onChangeSelect('brand')}
-          />
           <Input
             inputType="amount"
             labelPosition="right"
@@ -56,10 +51,17 @@ export default function ProductUploadPage() {
         </Form.Group>
         <Form.Group widths="equal">
           <UtilSelect
+            label="브랜드"
+            type="brands"
+            onChange={onChangeSelect('brand')}
+          />
+          <UtilSelect
             label="카테고리"
             type="categories"
             onChange={onChangeSelect('category')}
           />
+        </Form.Group>
+        <Form.Group widths="equal">
           <Select
             label="주 이용 성별"
             options={GENDER}
