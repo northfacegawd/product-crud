@@ -43,7 +43,8 @@
     "jsx-a11y/no-noninteractive-element-interactions": 0,
     "jsx-a11y/label-has-associated-control": 0,
     "@typescript-eslint/explicit-module-boundary-types": 0,
-    "camelcase": "off"
+    "camelcase": "off",
+    "no-alert": "off"
   },
   "settings": {
     "import/resolver": {

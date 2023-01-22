@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 import { FormData } from '../hooks/request/post/useCreateProduct';
-import { ProductUploadForm } from '../pages/products/upload';
 import { Product } from '../types/product';
 
 export const createProduct = async (formData: FormData) => {
@@ -25,4 +24,11 @@ export const updateProduct = async (formData: FormData, id: number) => {
   );
 
   return data.product;
+};
+
+export const deleteProduct = async (id: number) => {
+  const { data } = await axios.delete<{ success: boolean }>(
+    `/api/products/${id}`,
+  );
+  return data.success;
 };
