@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const UploadWrapper = styled.div`
   display: flex;
@@ -6,7 +6,7 @@ export const UploadWrapper = styled.div`
   justify-content: center;
 `;
 
-export const UploadLabel = styled.label`
+export const UploadLabel = styled.label<{ error?: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -30,6 +30,12 @@ export const UploadLabel = styled.label`
     color: rgba(0, 0, 0, 0.4);
     border-color: rgba(0, 0, 0, 0.4);
   }
+  ${({ error }) =>
+    error &&
+    css`
+      color: #f44336;
+      border-color: #f44336;
+    `}
 `;
 
 export const SwiperWrapper = styled.div`

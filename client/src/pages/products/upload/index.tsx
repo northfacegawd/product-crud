@@ -25,8 +25,14 @@ export interface ProductUploadForm {
 }
 
 export default function ProductUploadPage() {
-  const { handleSubmit, onChangeInput, onChangeSelect, register, watch } =
-    useFormHandle<ProductUploadForm>();
+  const {
+    handleSubmit,
+    onChangeInput,
+    onChangeSelect,
+    register,
+    watch,
+    formState,
+  } = useFormHandle<ProductUploadForm>();
   const { mutate, isLoading, data, isError } = useCreateProduct();
   const navigate = useNavigate();
   const { upload, uploading } = useUploadImage();
@@ -53,8 +59,9 @@ export default function ProductUploadPage() {
         error={isError}
       >
         <Upload
-          register={register('thumbnail')}
+          register={register('thumbnail', { required: true })}
           previewFile={watch('thumbnail')}
+          error={formState.errors.thumbnail}
         />
         <Form.Group widths="equal" style={{ marginTop: '1rem' }}>
           <Input label="상품명" onChange={onChangeInput('name')} />

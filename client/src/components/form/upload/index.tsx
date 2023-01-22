@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { UseFormRegisterReturn } from 'react-hook-form';
+import { FieldError, UseFormRegisterReturn } from 'react-hook-form';
 
 import UploadImage from '../../icons/upload-image';
 import { UploadLabel, UploadWrapper } from './index.style';
@@ -8,12 +8,14 @@ interface UploadProps {
   previewFile?: FileList;
   defaultPreview?: string;
   register: UseFormRegisterReturn;
+  error?: FieldError;
 }
 
 export default function Upload({
   register,
   previewFile,
   defaultPreview,
+  error,
 }: UploadProps) {
   const [photoPreview, setPhotoPreview] = useState<string>();
 
@@ -28,6 +30,7 @@ export default function Upload({
     <UploadWrapper>
       <UploadLabel
         htmlFor="image"
+        error={!!error}
         style={{
           backgroundImage: `url(${photoPreview ?? defaultPreview})`,
         }}
