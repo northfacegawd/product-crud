@@ -131,6 +131,7 @@ export class AppController {
           amount: productData.amount,
           about: productData.about,
           gender: productData.gender,
+          thumbnail: productData.thumbnail,
           brand: {
             connect: { slug: productData.brand },
           },

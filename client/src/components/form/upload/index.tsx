@@ -6,14 +6,19 @@ import { UploadLabel, UploadWrapper } from './index.style';
 
 interface UploadProps {
   previewFile?: FileList;
+  defaultPreview?: string;
   register: UseFormRegisterReturn;
 }
 
-export default function Upload({ register, previewFile }: UploadProps) {
+export default function Upload({
+  register,
+  previewFile,
+  defaultPreview,
+}: UploadProps) {
   const [photoPreview, setPhotoPreview] = useState<string>();
 
   useEffect(() => {
-    const file = previewFile?.item(0);
+    const file = previewFile?.item?.(0);
     if (file) {
       setPhotoPreview(URL.createObjectURL(file));
     }
@@ -24,10 +29,10 @@ export default function Upload({ register, previewFile }: UploadProps) {
       <UploadLabel
         htmlFor="image"
         style={{
-          backgroundImage: `url(${photoPreview})`,
+          backgroundImage: `url(${photoPreview ?? defaultPreview})`,
         }}
       >
-        {!photoPreview && <UploadImage />}
+        {!photoPreview && !defaultPreview && <UploadImage />}
         <input
           {...register}
           title="image"

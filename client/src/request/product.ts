@@ -18,10 +18,7 @@ export const fetchProducts = async () => {
   return data.products;
 };
 
-export const updateProduct = async (
-  formData: ProductUploadForm,
-  id: number,
-) => {
+export const updateProduct = async (formData: FormData, id: number) => {
   const { data } = await axios.patch<{ product: Product }>(
     `/api/products/${id}`,
     formData,

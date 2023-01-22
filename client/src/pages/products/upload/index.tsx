@@ -55,7 +55,7 @@ export default function ProductUploadPage() {
           register={register('thumbnail')}
           previewFile={watch('thumbnail')}
         />
-        <Form.Group widths="equal" style={{ marginTop: '3rem' }}>
+        <Form.Group widths="equal" style={{ marginTop: '1rem' }}>
           <Input label="상품명" onChange={onChangeInput('name')} />
           <Input
             inputType="amount"

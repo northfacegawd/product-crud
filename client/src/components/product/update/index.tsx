@@ -4,11 +4,14 @@ import { Button, Form, Modal } from 'semantic-ui-react';
 import { ProductItemProps } from '..';
 import { GENDER } from '../../../constants/options';
 import { useUpdateProduct } from '../../../hooks/request/update/useProductUpdate';
+import useUploadImage from '../../../hooks/request/useUploadImage';
 import useFormHandle from '../../../hooks/useFormHandle';
+import { getImageUrl } from '../../../libs/util';
 import { ProductUploadForm } from '../../../pages/products/upload';
 import { Util } from '../../../types/product';
 import Input from '../../form/input';
 import Select from '../../form/select';
+import Upload from '../../form/upload';
 import UtilSelect from '../../form/util-select';
 
 interface ProductEditModalProps extends ProductItemProps {
@@ -23,14 +26,33 @@ export default function ProductUpdateModal({
   onOpen,
   ...productData
 }: ProductEditModalProps) {
-  const { brand, amount, gender, options, category, about, name, id } =
-    productData;
-  const { handleSubmit, onChangeInput, onChangeSelect, setValue } =
-    useFormHandle<ProductUploadForm>();
+  const {
+    brand,
+    amount,
+    gender,
+    options,
+    category,
+    about,
+    name,
+    id,
+    thumbnail,
+  } = productData;
+  const {
+    handleSubmit,
+    onChangeInput,
+    onChangeSelect,
+    setValue,
+    register,
+    watch,
+  } = useFormHandle<ProductUploadForm>();
   const { mutate, data, isLoading } = useUpdateProduct(id);
+  const { upload, uploading } = useUploadImage();
 
   const onSubmit = async (data: ProductUploadForm) => {
-    mutate(data);
+    const thumbnailFile = data.thumbnail.item(0);
+    if (!thumbnailFile) return;
+    const id = await upload(thumbnailFile);
+    mutate({ ...data, thumbnail: id });
   };
 
   useEffect(() => {
@@ -63,8 +85,16 @@ export default function ProductUpdateModal({
     <Modal onClose={onClose} onOpen={onOpen} open={open}>
       <Modal.Header>상품 수정하기</Modal.Header>
       <Modal.Content scrolling>
-        <Form onSubmit={handleSubmit(onSubmit)} loading={isLoading}>
-          <Form.Group widths="equal">
+        <Form
+          onSubmit={handleSubmit(onSubmit)}
+          loading={isLoading || uploading}
+        >
+          <Upload
+            register={register('thumbnail')}
+            previewFile={watch('thumbnail')}
+            defaultPreview={getImageUrl(thumbnail)}
+          />
+          <Form.Group widths="equal" style={{ marginTop: '1rem' }}>
             <Input
               label="상품명"
               onChange={onChangeInput('name')}
