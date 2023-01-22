@@ -45,7 +45,8 @@
     "@typescript-eslint/explicit-module-boundary-types": 0,
     "camelcase": "off",
     "no-alert": "off",
-    "consistent-return": "off"
+    "consistent-return": "off",
+    "jsx-a11y/click-events-have-key-events": "off"
   },
   "settings": {
     "import/resolver": {

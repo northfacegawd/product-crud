@@ -10,7 +10,6 @@ import {
   LikeCount,
   ProductImage,
   ProductInfo,
-  ProductItemWrapper,
   ProductSecondInfo,
 } from './index.style';
 import ProductUpdateModal from './update';
@@ -35,7 +34,7 @@ export default function ProductItem(props: ProductItemProps) {
 
   return (
     <>
-      <ProductItemWrapper onClick={onOpen}>
+      <li onClick={onOpen}>
         <ProductImage src={getImageUrl(thumbnail)} alt={`${name} 썸네일`} />
         <ProductInfo>
           <Brand>
@@ -55,7 +54,7 @@ export default function ProductItem(props: ProductItemProps) {
           ))}
         </ProductSecondInfo>
         <LikeCount>좋아요 {numberIntoPrice(likeCount)}</LikeCount>
-      </ProductItemWrapper>
+      </li>
       <ProductUpdateModal {...data} />
     </>
   );

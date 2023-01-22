@@ -14,17 +14,6 @@ const skeletonCss = css`
   animation: skeleton-loading 600ms linear infinite alternate;
 `;
 
-export const SkeletonWrapper = styled.li`
-  width: calc(33.3% - 2em);
-  min-height: 400px;
-  @media (max-width: 650px) {
-    width: calc(50% - 1em);
-  }
-  @media (max-width: 400px) {
-    width: 100%;
-  }
-`;
-
 export const ImageSkeleton = styled.div`
   ${skeletonCss}
   width: 100%;
