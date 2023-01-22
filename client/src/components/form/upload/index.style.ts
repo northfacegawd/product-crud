@@ -16,6 +16,10 @@ export const UploadLabel = styled.label`
   border: 2px dashed black;
   border-radius: 6px;
   transition: all 200ms ease-out;
+  background: no-repeat;
+  background-position: center;
+  object-fit: cover;
+  background-size: 200px;
   svg {
     width: 100px;
   }
