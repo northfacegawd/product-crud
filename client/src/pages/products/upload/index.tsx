@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form } from 'semantic-ui-react';
@@ -9,11 +8,8 @@ import Upload from '../../../components/form/upload';
 import UtilSelect from '../../../components/form/util-select';
 import { GENDER } from '../../../constants/options';
 import { useCreateProduct } from '../../../hooks/request/post/useCreateProduct';
+import useUploadImage from '../../../hooks/request/useUploadImage';
 import useFormHandle from '../../../hooks/useFormHandle';
-import {
-  CloudflareUploadResponse,
-  FilesUploadResponse,
-} from '../../../types/upload';
 import { Heading } from '../index.style';
 import { UploadForm } from './index.style';
 
@@ -33,25 +29,12 @@ export default function ProductUploadPage() {
     useFormHandle<ProductUploadForm>();
   const { mutate, isLoading, data } = useCreateProduct();
   const navigate = useNavigate();
+  const { upload, uploading } = useUploadImage();
 
   const onSubmit = async (data: ProductUploadForm) => {
     const thumbnailFile = data.thumbnail.item(0);
     if (!thumbnailFile) return;
-    const {
-      data: { uploadURL },
-    } = await axios.get<FilesUploadResponse>('/api/images');
-
-    // upload file to Cloudflare URL
-    const form = new FormData();
-    form.append('file', thumbnailFile, new Date().toISOString());
-    const {
-      result: { id },
-    }: CloudflareUploadResponse = await (
-      await fetch(uploadURL, {
-        method: 'POST',
-        body: form,
-      })
-    ).json();
+    const id = await upload(thumbnailFile);
     mutate({ ...data, thumbnail: id });
   };
 
@@ -64,7 +47,10 @@ export default function ProductUploadPage() {
   return (
     <>
       <Heading>상품 등록하기</Heading>
-      <UploadForm onSubmit={handleSubmit(onSubmit)} loading={isLoading}>
+      <UploadForm
+        onSubmit={handleSubmit(onSubmit)}
+        loading={isLoading || uploading}
+      >
         <Upload register={register('thumbnail')} />
         <Form.Group widths="equal" style={{ marginTop: '3rem' }}>
           <Input label="상품명" onChange={onChangeInput('name')} />
