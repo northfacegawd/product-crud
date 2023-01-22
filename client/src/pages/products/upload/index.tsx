@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Form } from 'semantic-ui-react';
+import { Form, Message } from 'semantic-ui-react';
 
 import Input from '../../../components/form/input';
 import Select from '../../../components/form/select';
@@ -27,7 +27,7 @@ export interface ProductUploadForm {
 export default function ProductUploadPage() {
   const { handleSubmit, onChangeInput, onChangeSelect, register, watch } =
     useFormHandle<ProductUploadForm>();
-  const { mutate, isLoading, data } = useCreateProduct();
+  const { mutate, isLoading, data, isError } = useCreateProduct();
   const navigate = useNavigate();
   const { upload, uploading } = useUploadImage();
 
@@ -50,6 +50,7 @@ export default function ProductUploadPage() {
       <UploadForm
         onSubmit={handleSubmit(onSubmit)}
         loading={isLoading || uploading}
+        error={isError}
       >
         <Upload
           register={register('thumbnail')}
@@ -95,6 +96,11 @@ export default function ProductUploadPage() {
           label="제품 설명"
           placeholder="제품 설명을 입력해주세요."
           onChange={onChangeInput('about')}
+        />
+        <Message
+          error
+          header="서버오류"
+          content="입력하지 않은 필드나, 유효하지 않은 값을 입력하였는지 확인 후 다시 시도해주세요. 같은 문제가 반복된다면 관리자에게 문의 부탁드립니다."
         />
         <Form.Button type="submit">Submit</Form.Button>
       </UploadForm>

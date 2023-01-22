@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Button, Form, Modal } from 'semantic-ui-react';
+import { Button, Form, Message, Modal } from 'semantic-ui-react';
 
 import { ProductItemProps } from '..';
 import { GENDER } from '../../../constants/options';
@@ -29,7 +29,7 @@ export default function ProductUpdateModal({
   ...pd
 }: ProductEditModalProps) {
   const form = useFormHandle<ProductUploadForm>();
-  const { mutate, data, isLoading } = useUpdateProduct(pd.id);
+  const { mutate, data, isLoading, isError } = useUpdateProduct(pd.id);
   const { upload, uploading } = useUploadImage();
   const {
     mutate: deleteProduct,
@@ -88,7 +88,11 @@ export default function ProductUpdateModal({
     <Modal onClose={onClose} onOpen={onOpen} open={open}>
       <Modal.Header>상품 수정하기</Modal.Header>
       <Modal.Content scrolling>
-        <Form onSubmit={form.handleSubmit(onSubmit)} loading={disabled}>
+        <Form
+          onSubmit={form.handleSubmit(onSubmit)}
+          loading={disabled}
+          error={isError}
+        >
           <Upload
             register={form.register('thumbnail')}
             previewFile={form.watch('thumbnail')}
@@ -144,6 +148,11 @@ export default function ProductUpdateModal({
             placeholder="제품 설명을 입력해주세요."
             onChange={form.onChangeInput('about')}
             defaultValue={pd.about}
+          />
+          <Message
+            error
+            header="서버오류"
+            content="입력하지 않은 필드나, 유효하지 않은 값을 입력하였는지 확인 후 다시 시도해주세요. 같은 문제가 반복된다면 관리자에게 문의 부탁드립니다."
           />
           <Form.Button type="submit">Submit</Form.Button>
         </Form>
