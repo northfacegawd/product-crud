@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { numberIntoPrice } from '../../libs/util';
+import { getImageUrl, numberIntoPrice } from '../../libs/util';
 import { Product } from '../../types/product';
 import Badge from '../common/badge';
 import Heart from '../icons/heart';
@@ -36,7 +36,7 @@ export default function ProductItem(props: ProductItemProps) {
   return (
     <>
       <ProductItemWrapper onClick={onOpen}>
-        <ProductImage src={thumbnail} alt={`${name} 썸네일`} />
+        <ProductImage src={getImageUrl(thumbnail)} alt={`${name} 썸네일`} />
         <ProductInfo>
           <Brand>
             {brand.name}&nbsp;

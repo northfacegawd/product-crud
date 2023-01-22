@@ -1,9 +1,10 @@
 import axios from 'axios';
 
+import { FormData } from '../hooks/request/post/useCreateProduct';
 import { ProductUploadForm } from '../pages/products/upload';
 import { Product } from '../types/product';
 
-export const createProduct = async (formData: ProductUploadForm) => {
+export const createProduct = async (formData: FormData) => {
   const { data } = await axios.post<{ product: Product }>(
     '/api/products',
     formData,

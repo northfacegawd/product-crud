@@ -1,13 +1,19 @@
+import axios from 'axios';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form } from 'semantic-ui-react';
 
 import Input from '../../../components/form/input';
 import Select from '../../../components/form/select';
+import Upload from '../../../components/form/upload';
 import UtilSelect from '../../../components/form/util-select';
 import { GENDER } from '../../../constants/options';
 import { useCreateProduct } from '../../../hooks/request/post/useCreateProduct';
 import useFormHandle from '../../../hooks/useFormHandle';
+import {
+  CloudflareUploadResponse,
+  FilesUploadResponse,
+} from '../../../types/upload';
 import { Heading } from '../index.style';
 import { UploadForm } from './index.style';
 
@@ -19,16 +25,34 @@ export interface ProductUploadForm {
   gender: string[];
   options: string[];
   about: string;
+  thumbnail: FileList;
 }
 
 export default function ProductUploadPage() {
-  const { handleSubmit, onChangeInput, onChangeSelect } =
+  const { handleSubmit, onChangeInput, onChangeSelect, register } =
     useFormHandle<ProductUploadForm>();
   const { mutate, isLoading, data } = useCreateProduct();
   const navigate = useNavigate();
 
   const onSubmit = async (data: ProductUploadForm) => {
-    mutate(data);
+    const thumbnailFile = data.thumbnail.item(0);
+    if (!thumbnailFile) return;
+    const {
+      data: { uploadURL },
+    } = await axios.get<FilesUploadResponse>('/api/images');
+
+    // upload file to Cloudflare URL
+    const form = new FormData();
+    form.append('file', thumbnailFile, new Date().toISOString());
+    const {
+      result: { id },
+    }: CloudflareUploadResponse = await (
+      await fetch(uploadURL, {
+        method: 'POST',
+        body: form,
+      })
+    ).json();
+    mutate({ ...data, thumbnail: id });
   };
 
   useEffect(() => {
@@ -41,7 +65,8 @@ export default function ProductUploadPage() {
     <>
       <Heading>상품 등록하기</Heading>
       <UploadForm onSubmit={handleSubmit(onSubmit)} loading={isLoading}>
-        <Form.Group widths="equal">
+        <Upload register={register('thumbnail')} />
+        <Form.Group widths="equal" style={{ marginTop: '3rem' }}>
           <Input label="상품명" onChange={onChangeInput('name')} />
           <Input
             inputType="amount"
