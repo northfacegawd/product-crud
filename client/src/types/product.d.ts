@@ -6,7 +6,16 @@ export interface Util {
 
 export interface Product {
   id: number;
-  title: string;
-  description: string;
-  options: Option[];
+  name: string;
+  amount: string;
+  gender: string;
+  about: string;
+  brandId?: string;
+  categoryId?: string;
+  likeCount: number;
+  createdAt: Date;
+  updatedAt: Date;
+  options?: Option[];
+  category: Util;
+  brand: Util;
 }

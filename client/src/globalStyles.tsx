@@ -11,10 +11,17 @@ const GlobalStyle = createGlobalStyle`
   a {
     color: inherit;
     text-decoration: none;
+    &:hover {
+      color: black;
+    }
   }
 
   body {
     font-size: 16px;
+  }
+  
+  ul, li {
+    list-style: none;
   }
 
   @media (max-width: 768px) {

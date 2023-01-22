@@ -8,6 +8,7 @@ import UtilSelect from '../../../components/form/util-select';
 import { GENDER } from '../../../constants/options';
 import { useCreateProduct } from '../../../hooks/request/post/useCreateProduct';
 import useFormHandle from '../../../hooks/useFormHandle';
+import { Heading } from '../index.style';
 import { UploadForm } from './index.style';
 
 export interface ProductUploadForm {
@@ -37,7 +38,7 @@ export default function ProductUploadPage() {
 
   return (
     <>
-      <h1>상품 등록하기</h1>
+      <Heading>상품 등록하기</Heading>
       <UploadForm onSubmit={handleSubmit(onSubmit)} loading={isLoading}>
         <Form.Group widths="equal">
           <Input label="상품명" onChange={onChangeInput('name')} />

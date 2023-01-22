@@ -23,7 +23,10 @@ export class AppController {
   @Get('products')
   async getProducts(@Res() res: Response) {
     try {
-      const products = await this.productService.products({});
+      const products = await this.productService.products({
+        include: { brand: true, category: true, options: true },
+        orderBy: { updatedAt: 'desc', likeCount: 'desc' },
+      });
       return res.status(HttpStatus.OK).json({ products });
     } catch (error) {
       return res.status(HttpStatus.BAD_REQUEST).json({ error });
