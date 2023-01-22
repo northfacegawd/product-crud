@@ -8,6 +8,7 @@ import {
   Get,
   HttpStatus,
   Param,
+  Patch,
   Post,
   Res,
 } from '@nestjs/common';
@@ -102,7 +103,34 @@ export class AppController {
       });
       return res.status(HttpStatus.OK).json({ product });
     } catch (error) {
-      console.log(error);
+      return res.status(HttpStatus.BAD_REQUEST).json({ error });
+    }
+  }
+
+  @Patch('product/:id')
+  async updateProduct(
+    @Param() id: number,
+    @Body() productData: CreateProductBody,
+    @Res() res: Response,
+  ) {
+    try {
+      const product = await this.productService.updateProduct({
+        where: { id },
+        data: {
+          ...productData,
+          brand: {
+            connect: { slug: productData.brand },
+          },
+          category: {
+            connect: { slug: productData.category },
+          },
+          options: {
+            connect: productData.options?.map((option) => ({ slug: option })),
+          },
+        },
+      });
+      return res.status(HttpStatus.OK).json({ product });
+    } catch (error) {
       return res.status(HttpStatus.BAD_REQUEST).json({ error });
     }
   }
