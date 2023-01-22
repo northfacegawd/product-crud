@@ -15,7 +15,7 @@ import {
 } from './index.style';
 import ProductUpdateModal from './update';
 
-export interface ProductItemProps extends Omit<Product, 'about'> {
+export interface ProductItemProps extends Product {
   thumbnail: string;
 }
 

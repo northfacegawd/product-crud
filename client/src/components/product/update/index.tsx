@@ -1,6 +1,12 @@
-import { Button, Header, Image, Modal } from 'semantic-ui-react';
+import { Button, Form, Modal } from 'semantic-ui-react';
 
 import { ProductItemProps } from '..';
+import { GENDER } from '../../../constants/options';
+import useFormHandle from '../../../hooks/useFormHandle';
+import { ProductUploadForm } from '../../../pages/products/upload';
+import Input from '../../form/input';
+import Select from '../../form/select';
+import UtilSelect from '../../form/util-select';
 
 interface ProductEditModalProps extends ProductItemProps {
   open: boolean;
@@ -12,36 +18,73 @@ export default function ProductUpdateModal({
   open,
   onClose,
   onOpen,
+  ...productData
 }: ProductEditModalProps) {
+  const { brand, amount, gender, options, category, about, name } = productData;
+  const { handleSubmit, onChangeInput, onChangeSelect } =
+    useFormHandle<ProductUploadForm>();
+
   return (
     <Modal onClose={onClose} onOpen={onOpen} open={open}>
-      <Modal.Header>Select a Photo</Modal.Header>
-      <Modal.Content image>
-        <Image
-          size="medium"
-          src="https://react.semantic-ui.com/images/avatar/large/rachel.png"
-          wrapped
-        />
-        <Modal.Description>
-          <Header>Default Profile Image</Header>
-          <p>
-            ve found the following gravatar image associated with your e-mail
-            address.
-          </p>
-          <p>Is it okay to use this photo?</p>
-        </Modal.Description>
+      <Modal.Header>상품 수정하기</Modal.Header>
+      <Modal.Content>
+        <Form>
+          <Form.Group widths="equal">
+            <Input
+              label="상품명"
+              onChange={onChangeInput('name')}
+              defaultValue={name}
+            />
+            <UtilSelect
+              label="브랜드"
+              type="brands"
+              onChange={onChangeSelect('brand')}
+              defaultValue={brand.slug}
+            />
+            <Input
+              inputType="amount"
+              labelPosition="right"
+              label="가격"
+              onChange={onChangeInput('amount')}
+              defaultValue={amount}
+            />
+          </Form.Group>
+          <Form.Group widths="equal">
+            <UtilSelect
+              label="카테고리"
+              type="categories"
+              onChange={onChangeSelect('category')}
+              defaultValue={category.slug}
+            />
+            <Select
+              label="주 이용 성별"
+              options={GENDER}
+              onChange={onChangeSelect('gender')}
+              defaultValue={gender}
+            />
+            <UtilSelect
+              required={false}
+              multiple
+              type="options"
+              label="옵션"
+              onChange={onChangeSelect('options')}
+              defaultValue={options?.map((option) => option.slug)}
+            />
+          </Form.Group>
+          <Form.TextArea
+            required
+            label="제품 설명"
+            placeholder="제품 설명을 입력해주세요."
+            onChange={onChangeInput('about')}
+            defaultValue={about}
+          />
+          <Form.Button type="submit">Submit</Form.Button>
+        </Form>
       </Modal.Content>
       <Modal.Actions>
         <Button color="black" onClick={onClose}>
-          Nope
+          닫기
         </Button>
-        <Button
-          content="Yep, that's me"
-          labelPosition="right"
-          icon="checkmark"
-          onClick={onClose}
-          positive
-        />
       </Modal.Actions>
     </Modal>
   );
