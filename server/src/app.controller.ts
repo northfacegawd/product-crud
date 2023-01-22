@@ -153,9 +153,10 @@ export class AppController {
   @Delete('products/:id')
   async deleteProduct(@Param('id') id: number, @Res() res: Response) {
     try {
-      await this.productService.deleteProduct({ id });
+      await this.productService.deleteProduct({ id: Number(id) });
       return res.status(HttpStatus.OK).json({ success: true });
     } catch (error) {
+      console.log(error);
       return res.status(HttpStatus.BAD_REQUEST).json({ error });
     }
   }
