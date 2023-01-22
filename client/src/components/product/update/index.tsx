@@ -1,9 +1,12 @@
+import { useEffect } from 'react';
 import { Button, Form, Modal } from 'semantic-ui-react';
 
 import { ProductItemProps } from '..';
 import { GENDER } from '../../../constants/options';
+import { useUpdateProduct } from '../../../hooks/request/update/useProductUpdate';
 import useFormHandle from '../../../hooks/useFormHandle';
 import { ProductUploadForm } from '../../../pages/products/upload';
+import { Util } from '../../../types/product';
 import Input from '../../form/input';
 import Select from '../../form/select';
 import UtilSelect from '../../form/util-select';
@@ -20,15 +23,47 @@ export default function ProductUpdateModal({
   onOpen,
   ...productData
 }: ProductEditModalProps) {
-  const { brand, amount, gender, options, category, about, name } = productData;
-  const { handleSubmit, onChangeInput, onChangeSelect } =
+  const { brand, amount, gender, options, category, about, name, id } =
+    productData;
+  const { handleSubmit, onChangeInput, onChangeSelect, setValue } =
     useFormHandle<ProductUploadForm>();
+  const { mutate, data, isLoading } = useUpdateProduct(id);
+
+  const onSubmit = async (data: ProductUploadForm) => {
+    mutate(data);
+  };
+
+  useEffect(() => {
+    if (!data) return;
+    alert('상품 업데이트가 완료되었습니다.');
+    onClose();
+  }, [data]);
+
+  useEffect(() => {
+    Object.entries(productData).forEach(([key, data]) => {
+      const dataKey = key as Parameters<typeof setValue>[0];
+      if (
+        ['category', 'brand'].includes(dataKey) &&
+        typeof data === 'object' &&
+        'slug' in data
+      ) {
+        setValue(dataKey, data.slug);
+      } else if (dataKey === 'options' && Array.isArray(data)) {
+        setValue(
+          dataKey,
+          data.map((option: Util) => option.slug),
+        );
+      } else {
+        setValue(dataKey, data as any);
+      }
+    });
+  }, []);
 
   return (
     <Modal onClose={onClose} onOpen={onOpen} open={open}>
       <Modal.Header>상품 수정하기</Modal.Header>
       <Modal.Content scrolling>
-        <Form>
+        <Form onSubmit={handleSubmit(onSubmit)} loading={isLoading}>
           <Form.Group widths="equal">
             <Input
               label="상품명"

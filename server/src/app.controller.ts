@@ -107,17 +107,20 @@ export class AppController {
     }
   }
 
-  @Patch('product/:id')
+  @Patch('products/:id')
   async updateProduct(
-    @Param() id: number,
+    @Param('id') id: number,
     @Body() productData: CreateProductBody,
     @Res() res: Response,
   ) {
     try {
       const product = await this.productService.updateProduct({
-        where: { id },
+        where: { id: Number(id) },
         data: {
-          ...productData,
+          name: productData.name,
+          amount: productData.amount,
+          about: productData.about,
+          gender: productData.gender,
           brand: {
             connect: { slug: productData.brand },
           },
@@ -125,12 +128,13 @@ export class AppController {
             connect: { slug: productData.category },
           },
           options: {
-            connect: productData.options?.map((option) => ({ slug: option })),
+            set: productData.options?.map((option) => ({ slug: option })),
           },
         },
       });
       return res.status(HttpStatus.OK).json({ product });
     } catch (error) {
+      console.log(error);
       return res.status(HttpStatus.BAD_REQUEST).json({ error });
     }
   }

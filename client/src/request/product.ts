@@ -16,3 +16,15 @@ export const fetchProducts = async () => {
   const { data } = await axios.get<{ products: Product[] }>('/api/products');
   return data.products;
 };
+
+export const updateProduct = async (
+  formData: ProductUploadForm,
+  id: number,
+) => {
+  const { data } = await axios.patch<{ product: Product }>(
+    `/api/products/${id}`,
+    formData,
+  );
+
+  return data.product;
+};

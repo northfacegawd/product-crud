@@ -33,7 +33,8 @@ export default function ProductUploadPage() {
 
   useEffect(() => {
     if (!data) return;
-    navigate(`/products/${data.id}`);
+    alert('상품 등록이 완료되었습니다.');
+    navigate('/products');
   }, [data]);
 
   return (
