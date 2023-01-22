@@ -17,6 +17,6 @@ export const getEmptyArray = (length: number) => {
   return Array.from({ length }, (_, i) => i);
 };
 
-export function getImageUrl(imageId: string, variant = 'public') {
+export const getImageUrl = (imageId: string, variant = 'public') => {
   return `https://imagedelivery.net/r0Q-rasaBnYOnRDCjA92sQ/${imageId}/${variant}`;
-}
+};

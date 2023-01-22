@@ -38,8 +38,8 @@ export default function ProductUpdateModal({
   } = useDeleteProduct(pd.id);
 
   const onSubmit = async (data: ProductUploadForm) => {
-    const thumbnailFile = data.thumbnail.item(0);
-    if (!thumbnailFile) return;
+    const thumbnailFile = data.thumbnail?.item?.(0);
+    if (!thumbnailFile) return mutate({ ...data, thumbnail: pd.thumbnail });
     const id = await upload(thumbnailFile);
     mutate({ ...data, thumbnail: id });
   };
@@ -62,24 +62,20 @@ export default function ProductUpdateModal({
     if (!deleted) return;
     alert('삭제되었습니다.');
     onClose();
-  }, []);
+  }, [deleted]);
 
   useEffect(() => {
     Object.entries(pd).forEach(([key, data]) => {
-      const dataKey = key as Parameters<typeof form.setValue>[0];
-      if (
-        ['category', 'brand'].includes(dataKey) &&
-        typeof data === 'object' &&
-        'slug' in data
-      ) {
-        form.setValue(dataKey, data.slug);
-      } else if (dataKey === 'options' && Array.isArray(data)) {
+      const type = key as Parameters<typeof form.setValue>[0];
+      if (type === 'options' && Array.isArray(data)) {
         form.setValue(
-          dataKey,
-          data.map((option: Util) => option.slug),
+          type,
+          data.map(({ slug }: Util) => slug),
         );
+      } else if (typeof data === 'object' && 'slug' in data) {
+        form.setValue(type, data.slug);
       } else {
-        form.setValue(dataKey, data as any);
+        form.setValue(type, data as any);
       }
     });
   }, []);

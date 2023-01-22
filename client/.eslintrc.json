@@ -44,7 +44,8 @@
     "jsx-a11y/label-has-associated-control": 0,
     "@typescript-eslint/explicit-module-boundary-types": 0,
     "camelcase": "off",
-    "no-alert": "off"
+    "no-alert": "off",
+    "consistent-return": "off"
   },
   "settings": {
     "import/resolver": {
