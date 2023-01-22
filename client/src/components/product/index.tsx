@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
 
 import { numberIntoPrice } from '../../libs/util';
 import { Product } from '../../types/product';
@@ -13,23 +13,29 @@ import {
   ProductItemWrapper,
   ProductSecondInfo,
 } from './index.style';
+import ProductUpdateModal from './update';
 
-interface ProductItemProps extends Omit<Product, 'about'> {
+export interface ProductItemProps extends Omit<Product, 'about'> {
   thumbnail: string;
 }
 
-export default function ProductItem({
-  id,
-  amount,
-  brand,
-  name,
-  thumbnail,
-  likeCount,
-  options,
-}: ProductItemProps) {
+export default function ProductItem(props: ProductItemProps) {
+  const { amount, brand, name, thumbnail, likeCount, options } = props;
+  const [open, setOpen] = useState<boolean>(false);
+
+  const onOpen = () => setOpen(true);
+  const onClose = () => setOpen(false);
+
+  const data = {
+    ...props,
+    open,
+    onOpen,
+    onClose,
+  };
+
   return (
-    <ProductItemWrapper>
-      <Link to={`/products/${id}`}>
+    <>
+      <ProductItemWrapper onClick={onOpen}>
         <ProductImage src={thumbnail} alt={`${name} 썸네일`} />
         <ProductInfo>
           <Brand>
@@ -49,7 +55,8 @@ export default function ProductItem({
           ))}
         </ProductSecondInfo>
         <LikeCount>좋아요 {numberIntoPrice(likeCount)}</LikeCount>
-      </Link>
-    </ProductItemWrapper>
+      </ProductItemWrapper>
+      <ProductUpdateModal {...data} />
+    </>
   );
 }
